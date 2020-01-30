@@ -45878,6 +45878,6 @@ a.text-dark:focus {
 
 .router-link-exact-active {
   background-color: #3f51b5;
-  color: #fff !important;
+  color: black !important;
 }
 

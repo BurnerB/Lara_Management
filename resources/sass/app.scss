@@ -11,8 +11,7 @@ $fa-font-path:"../webfonts";
 @import '~bootstrap/scss/bootstrap';
 @import '~admin-lte/dist/css/adminlte.css';
 
-
-.router-link-exact-active {
+.router-link-exact-active{
     background-color: #3f51b5;
-    color: #fff !important;
+    color: black !important;
 }
