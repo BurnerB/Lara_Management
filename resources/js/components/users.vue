@@ -21,15 +21,16 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Type</th>
-                      <th>Modify</th>
+                      <th>Registered at</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>183</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-success">Approved</span></td>
+                    <tr v-for="user in users" :key="user.id">
+                      <td>{{ user.id }}</td>
+                      <td>{{ user.name }}</td>
+                      <td>{{ user.email }}</td>
+                      <td>{{ user.type }}</td>
+                      <td>{{ user.created_at }}</td>
                       <td>
                           <a href="">
                               Edit
@@ -58,7 +59,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="createUser">
+                <form  @submit.prevent="createUser">
                   <div class="modal-body">
                       <div class="form-group">
                         <!-- 2 way modal binding -->
@@ -86,14 +87,6 @@
                     </div>
 
                     <div class="form-group">
-                          <!-- 2 way modal binding -->
-                          <input v-model="form.type" type="text" name="type"
-                          placeholder="Type"
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
-                          <has-error :form="form" field="type"></has-error>
-                    </div>
-
-                    <div class="form-group">
                           <select name="type" v-model="form.type" class="form-control" :class="{
                             'is-invalid':form.errors.has('type')}">
                             <option value="">Select User role</option>
@@ -117,7 +110,7 @@
                 
                   <div class="modal-footer">
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Create</button>
+                      <button type="submit" class="btn btn-primary">Create</button>
                   </div>
                 </form>
                 </div>
@@ -133,6 +126,7 @@
     export default {
       data(){
         return{
+          users: {},
           form: new Form({
             name:'',
             email : '',
@@ -144,12 +138,16 @@
         }
       },
       methods:{
+        loadUsers(){ 
+          axios.get('api/user')
+                .then(({ data })=> (this.users = data.data));
+        },
         createUser(){
-                this.form.post('api/login')
+                this.form.post('api/user')
         }
       },
-        mounted() {
-            console.log('Component mounted.')
+        created() {
+            this.loadUsers(); 
         }
     }
 </script>
