@@ -33,16 +33,6 @@ class UserController extends Controller
             'password'=>'required|string|min:6',
 
         ]);
-        // dd($request);
-       
-    //     return User::create([
-    //        'name'->$request['name'],
-    //        'email'->$request['email'],
-    //        'type'->$request['type'],
-    //        'bio'->$request['bio'],
-    //        'photo'->$request['photo'],
-    //        'password'->Hash::make($request['password']),
-    //    ]);
         return User::create($request->all());
     }
 
