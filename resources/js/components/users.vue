@@ -33,12 +33,10 @@
                       <td>{{ user.created_at | date }}</td>
                       <td>
                           <a href="">
-                              Edit
                               <i class="fa fa-edit blue"></i>
                           </a>
                             /
-                          <a href="">
-                              Trash
+                          <a href="#" @click="deleteUser(user.id)">
                               <i class='fa fa-trash red'></i>
                           </a>
                       </td>
@@ -142,6 +140,34 @@
         }
       },
       methods:{
+        //Delete User with Ajax Request and SweetAlert Modal 
+        deleteUser(id){
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            //send request to server
+            if (result.value){
+                this.form .delete('api/user/'+id)
+                          .then(()=>{
+                              Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                              )
+                              Fire.$emit('reload');
+                              })
+                          .catch(()=>{
+                              Swal.fire('Failed',"Something went wrong.","warning")
+                          });
+            }
+          })    
+        },
         loadUsers(){ 
           axios.get('api/user')
                 .then(({ data })=> (this.users = data.data));
@@ -152,7 +178,7 @@
                 //use promise (callback) to Detect Successfull HTTP  
                 this.form.post('api/user')
                     .then(()=>{
-                        Fire.$emit('afterCreated');
+                        Fire.$emit('reload');
                         $('#addNew').modal('hide')
 
                         Toast.fire({
@@ -165,19 +191,18 @@
                         this.$Progress.fail();
                     })
 
-                // create event
+    
                 
-        }
-      },
-        created() {
+      }
+    },
+    created() {
             this.loadUsers();
-
             // custom event--better way use laravel echo pusher
-            Fire.$on('aftercreated',()=>{
+            Fire.$on('reload',()=>{
               this.loadUsers();
             })
             // update dataevery 3 seconds BAD ON PERFORMANCE
             // setInterval(()=>this.loadUsers(),3000);
         }
-    }
+  }
 </script>

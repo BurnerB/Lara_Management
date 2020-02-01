@@ -2118,8 +2118,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2136,40 +2134,64 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    loadUsers: function loadUsers() {
+    //Delete User with Ajax Request and SweetAlert Modal 
+    deleteUser: function deleteUser(id) {
       var _this = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        //send request to server
+        if (result.value) {
+          _this.form["delete"]('api/user/' + id).then(function () {
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            Fire.$emit('reload');
+          })["catch"](function () {
+            Swal.fire('Failed', "Something went wrong.", "warning");
+          });
+        }
+      });
+    },
+    loadUsers: function loadUsers() {
+      var _this2 = this;
 
       axios.get('api/user').then(function (_ref) {
         var data = _ref.data;
-        return _this.users = data.data;
+        return _this2.users = data.data;
       });
     },
     createUser: function createUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start(); //use promise (callback) to Detect Successfull HTTP  
 
       this.form.post('api/user').then(function () {
-        Fire.$emit('afterCreated');
+        Fire.$emit('reload');
         $('#addNew').modal('hide');
         Toast.fire({
           icon: 'success',
           title: 'User created successfully'
         });
 
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
       })["catch"](function () {
-        _this2.$Progress.fail();
-      }); // create event
+        _this3.$Progress.fail();
+      });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadUsers(); // custom event--better way use laravel echo pusher
 
-    Fire.$on('aftercreated', function () {
-      _this3.loadUsers();
+    Fire.$on('reload', function () {
+      _this4.loadUsers();
     }); // update dataevery 3 seconds BAD ON PERFORMANCE
     // setInterval(()=>this.loadUsers(),3000);
   }
@@ -59335,7 +59357,24 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(_vm._f("date")(user.created_at)))]),
                   _vm._v(" "),
-                  _vm._m(2, true)
+                  _c("td", [
+                    _vm._m(2, true),
+                    _vm._v(
+                      "\n                        /\n                      "
+                    ),
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteUser(user.id)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-trash red" })]
+                    )
+                  ])
                 ])
               }),
               0
@@ -59664,16 +59703,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "" } }, [
-        _vm._v("\n                          Edit\n                          "),
-        _c("i", { staticClass: "fa fa-edit blue" })
-      ]),
-      _vm._v("\n                        /\n                      "),
-      _c("a", { attrs: { href: "" } }, [
-        _vm._v("\n                          Trash\n                          "),
-        _c("i", { staticClass: "fa fa-trash red" })
-      ])
+    return _c("a", { attrs: { href: "" } }, [
+      _c("i", { staticClass: "fa fa-edit blue" })
     ])
   },
   function() {
