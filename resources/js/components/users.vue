@@ -7,7 +7,7 @@
                 <h3 class="card-title">User Management List</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add New <i class="fas fa-user-plus fa-fw"></i></button>
+                    <button class="btn btn-success" @click="newModal">Add New <i class="fas fa-user-plus fa-fw"></i></button>
                 </div>
               
               </div>
@@ -32,7 +32,7 @@
                       <td>{{ user.type | capitalize}}</td>
                       <td>{{ user.created_at | date }}</td>
                       <td>
-                          <a href="">
+                          <a href="#" @click="editModal(user)">
                               <i class="fa fa-edit blue"></i>
                           </a>
                             /
@@ -52,12 +52,13 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New</h5>
+                    <h5 v-show="!editmode" class="modal-title" id="exampleModalLabel">Add New User</h5>
+                    <h5 v-show="editmode" class="modal-title" id="exampleModalLabel">Edit User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form  @submit.prevent="createUser">
+                <form  @submit.prevent="editmode ? updateUser() : createUser()">
                   <div class="modal-body">
                       <div class="form-group">
                         <!-- 2 way modal binding -->
@@ -112,7 +113,8 @@
                 
                   <div class="modal-footer">
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Create</button>
+                      <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+                      <button v-show="!editmode" type="submit" class="btn btn-primary">Create</button>
                   </div>
                 </form>
                 </div>
@@ -128,8 +130,10 @@
     export default {
       data(){
         return{
+          editmode:false,
           users: {},
           form: new Form({
+            id:'',
             name:'',
             email : '',
             password : '',
@@ -140,8 +144,50 @@
         }
       },
       methods:{
+        updateUser(id){
+          //progress bar start
+          this.$Progress.start();
+          //put with vform
+          this.form.put('api/user/'+this.form.id)
+              .then(()=>{
+                // hide modal
+                $('#addNew').modal('hide')
+                // modal pop up
+                Swal.fire(
+                                'Updated!',
+                                'Information Updated.',
+                                'success'
+                              ),
+                //progress bar finish
+                this.$Progress.finish();
+                //reload table show updated data
+                Fire.$emit('reload');            
+              })
+              .catch(()=>{
+                //red progress bar if any errors
+                this.$Progress.fail();
+              })
+        },
+
+        editModal(user){
+          //same modal for create and edit
+          this.editmode = true;
+          //vform reset
+          this.form.reset()        
+          $('#addNew').modal('show')
+
+          //vform table filled with user data 
+          this.form.fill(user)
+        },
+        newModal(){
+          this.editmode = false;
+          //vform reset
+          this.form.reset()
+          $('#addNew').modal('show')
+        },
         //Delete User with Ajax Request and SweetAlert Modal 
         deleteUser(id){
+          // modal pop up
           Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -155,6 +201,7 @@
             if (result.value){
                 this.form .delete('api/user/'+id)
                           .then(()=>{
+                            // modal pop up
                               Swal.fire(
                                 'Deleted!',
                                 'Your file has been deleted.',
