@@ -160,7 +160,9 @@
         }
       },
         created() {
-            this.loadUsers(); 
+            this.loadUsers();
+            // update dataevery 3 seconds
+            setInterval(()=>this.loadUsers(),3000);
         }
     }
 </script>

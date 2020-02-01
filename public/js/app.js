@@ -2156,7 +2156,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.loadUsers();
+    var _this2 = this;
+
+    this.loadUsers(); // update dataevery 3 seconds
+
+    setInterval(function () {
+      return _this2.loadUsers();
+    }, 3000);
   }
 });
 
