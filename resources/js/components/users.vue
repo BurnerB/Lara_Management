@@ -148,22 +148,31 @@
         },
         createUser(){
                 this.$Progress.start()
+
+                //use promise (callback) to Detect Successfull HTTP  
                 this.form.post('api/user')
+                    .then(()=>{
+                        Fire.$emit('afterCreated');
+                        $('#addNew').modal('hide')
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'User created successfully'
+                          })
+                        this.$Progress.finish();
+                    })
+                    .catch(()=>{
+                        this.$Progress.fail();
+                    })
 
                 // create event
-                Fire.$emit('afterCreated');
-                $('#addNew').modal('hide')
-
-                Toast.fire({
-                    icon: 'success',
-                    title: 'User created successfully'
-                  })
-                this.$Progress.finish()
+                
         }
       },
         created() {
             this.loadUsers();
-            // custom event
+
+            // custom event--better way use laravel echo pusher
             Fire.$on('aftercreated',()=>{
               this.loadUsers();
             })

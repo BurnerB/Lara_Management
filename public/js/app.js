@@ -2145,25 +2145,31 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createUser: function createUser() {
-      this.$Progress.start();
-      this.form.post('api/user'); // create event
+      var _this2 = this;
 
-      Fire.$emit('afterCreated');
-      $('#addNew').modal('hide');
-      Toast.fire({
-        icon: 'success',
-        title: 'User created successfully'
-      });
-      this.$Progress.finish();
+      this.$Progress.start(); //use promise (callback) to Detect Successfull HTTP  
+
+      this.form.post('api/user').then(function () {
+        Fire.$emit('afterCreated');
+        $('#addNew').modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'User created successfully'
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.fail();
+      }); // create event
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
-    this.loadUsers(); // custom event
+    this.loadUsers(); // custom event--better way use laravel echo pusher
 
     Fire.$on('aftercreated', function () {
-      _this2.loadUsers();
+      _this3.loadUsers();
     }); // update dataevery 3 seconds BAD ON PERFORMANCE
     // setInterval(()=>this.loadUsers(),3000);
   }
