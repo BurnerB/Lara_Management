@@ -76,6 +76,25 @@
                           class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                         <has-error :form="form" field="name"></has-error>
                       </div>
+
+                      <div class="form-group">
+                          <!-- 2 way modal binding -->
+                          <textarea v-model="form.bio" type="text" name="bio"
+                          placeholder=" short bio(optional)"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+                          <has-error :form="form" field="bio"></has-error>
+                    </div>
+
+                      <div class="form-group">
+                          <select name="type" v-model="form.type" class="form-control" :class="{
+                            'is-invalid':form.errors.has('type')}">
+                            <option value="">Select User role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                            <option value="author">Author</option>
+                          </select>
+                          <has-error :form="form" field="bio"></has-error>
+                    </div>
                   
 
                     <div class="form-group">
@@ -86,24 +105,9 @@
                           <has-error :form="form" field="password"></has-error>
                     </div>
 
-                    <div class="form-group">
-                          <select name="type" v-model="form.type" class="form-control" :class="{
-                            'is-invalid':form.errors.has('type')}">
-                            <option value="">Select User role</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                            <option value="author">Author</option>
-                          </select>
-                          <has-error :form="form" field="bio"></has-error>
-                    </div>
+                    
 
-                    <div class="form-group">
-                          <!-- 2 way modal binding -->
-                          <textarea v-model="form.bio" type="text" name="bio"
-                          placeholder=" short bio(optional)"
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
-                          <has-error :form="form" field="bio"></has-error>
-                    </div>
+                    
 
                     
                   </div>
@@ -143,7 +147,9 @@
                 .then(({ data })=> (this.users = data.data));
         },
         createUser(){
+                this.$Progress.start()
                 this.form.post('api/user')
+                this.$Progress.finish()
         }
       },
         created() {
