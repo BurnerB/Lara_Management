@@ -5,14 +5,34 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
+
+
 import { Form, HasError, AlertError } from 'vform'
 import moment from 'moment';
 import VueProgressBar from 'vue-progressbar';
 import VueRouter from 'vue-router'
+import Swal from 'sweetalert2';
 
+
+
+// refrence globally
 window.form = Form;
+window.Swal = Swal;
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  onOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+});
+
+window.Toast = Toast;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
@@ -20,24 +40,24 @@ Vue.component(AlertError.name, AlertError)
 
 
 Vue.use(VueRouter)
-
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
   height: '2px'
 })
+
 let routes = [
     { path: '/dashboard', component: require('./components/dashboard.vue').default },
     { path: '/profile', component: require('./components/profile.vue').default },
     { path: '/users', component: require('./components/users.vue').default }
-  ];
+];
 
 const router = new VueRouter({
     mode:'history',
     routes
   });
 
-  // global filter
+// global filter
 Vue.filter('capitalize',function(text){
   return text.charAt(0).toUpperCase() + text.slice(1);
 });
