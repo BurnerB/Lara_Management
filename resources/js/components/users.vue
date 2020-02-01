@@ -150,6 +150,8 @@
                 this.$Progress.start()
                 this.form.post('api/user')
 
+                // create event
+                Fire.$emit('afterCreated');
                 $('#addNew').modal('hide')
 
                 Toast.fire({
@@ -161,8 +163,12 @@
       },
         created() {
             this.loadUsers();
-            // update dataevery 3 seconds
-            setInterval(()=>this.loadUsers(),3000);
+            // custom event
+            Fire.$on('aftercreated',()=>{
+              this.loadUsers();
+            })
+            // update dataevery 3 seconds BAD ON PERFORMANCE
+            // setInterval(()=>this.loadUsers(),3000);
         }
     }
 </script>

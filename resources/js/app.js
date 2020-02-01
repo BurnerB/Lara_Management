@@ -15,10 +15,12 @@ import VueRouter from 'vue-router'
 import Swal from 'sweetalert2';
 
 
-
 // refrence globally
 window.form = Form;
 window.Swal = Swal;
+//refrenced globally for component communication
+// instance ofvue
+window.Fire = new Vue();
 
 const Toast = Swal.mixin({
   toast: true,

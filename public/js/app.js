@@ -2146,7 +2146,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     createUser: function createUser() {
       this.$Progress.start();
-      this.form.post('api/user');
+      this.form.post('api/user'); // create event
+
+      Fire.$emit('afterCreated');
       $('#addNew').modal('hide');
       Toast.fire({
         icon: 'success',
@@ -2158,11 +2160,12 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this2 = this;
 
-    this.loadUsers(); // update dataevery 3 seconds
+    this.loadUsers(); // custom event
 
-    setInterval(function () {
-      return _this2.loadUsers();
-    }, 3000);
+    Fire.$on('aftercreated', function () {
+      _this2.loadUsers();
+    }); // update dataevery 3 seconds BAD ON PERFORMANCE
+    // setInterval(()=>this.loadUsers(),3000);
   }
 });
 
@@ -74849,7 +74852,10 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  // refrence globally
 
 window.form = vform__WEBPACK_IMPORTED_MODULE_0__["Form"];
-window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a;
+window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a; //refrenced globally for component communication
+// instance ofvue
+
+window.Fire = new Vue();
 var Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a.mixin({
   toast: true,
   position: 'top-end',
