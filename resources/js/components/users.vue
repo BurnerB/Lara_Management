@@ -179,12 +179,14 @@
           //vform table filled with user data 
           this.form.fill(user)
         },
+
         newModal(){
           this.editmode = false;
           //vform reset
           this.form.reset()
           $('#addNew').modal('show')
         },
+
         //Delete User with Ajax Request and SweetAlert Modal 
         deleteUser(id){
           // modal pop up
@@ -215,10 +217,12 @@
             }
           })    
         },
+
         loadUsers(){ 
           axios.get('api/user')
                 .then(({ data })=> (this.users = data.data));
         },
+        
         createUser(){
                 this.$Progress.start()
 

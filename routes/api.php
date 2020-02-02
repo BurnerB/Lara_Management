@@ -19,3 +19,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResources(['user'=>'API\UserController']);
+
+
+// using middleware in routes
+// Route::group(['middleware' => 'auth:api'], function() {
+
+//     Route::apiResources([
+
+//         'user' => 'API\UserController'
+
+//     ]);
+
+// });
