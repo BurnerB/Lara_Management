@@ -3019,30 +3019,45 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateInfo: function updateInfo() {
-      this.form.put('api/profile').then(function () {})["catch"](function () {});
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.put('api/profile').then(function () {
+        _this.$Progress.finish();
+      })["catch"](function () {
+        _this.$Progress.fail();
+      });
     },
     updatePhoto: function updatePhoto(e) {
-      var _this = this;
+      var _this2 = this;
 
       //convert photo to base64
       var file = e.target.files[0];
-      var reader = new FileReader();
+      var reader = new FileReader(); // can only upload file less than 2mb
 
-      reader.onload = function () {
-        _this.form.photo = reader.result;
-      };
+      if (file.size < 2111775) {
+        reader.onload = function () {
+          _this2.form.photo = reader.result;
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire({
+          type: 'error',
+          title: 'Oooops..',
+          text: 'File cannot be more than 2Mb'
+        });
+      }
     }
   },
   //once component created run this function
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     axios.get('api/profile').then(function (_ref) {
       var data = _ref.data;
 
-      _this2.form.fill(data);
+      _this3.form.fill(data);
     });
   }
 });
@@ -62400,9 +62415,9 @@ var render = function() {
                           "label",
                           {
                             staticClass: "col-sm-12 control-label",
-                            attrs: { for: "Experience" }
+                            attrs: { for: "io" }
                           },
-                          [_vm._v("Experience")]
+                          [_vm._v("bio")]
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-sm-10" }, [
@@ -62411,8 +62426,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.form.experience,
-                                expression: "form.experience"
+                                value: _vm.form.bio,
+                                expression: "form.bio"
                               }
                             ],
                             staticClass: "form-control",
@@ -62420,17 +62435,13 @@ var render = function() {
                               id: "inputExperience",
                               placeholder: "Experience"
                             },
-                            domProps: { value: _vm.form.experience },
+                            domProps: { value: _vm.form.bio },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(
-                                  _vm.form,
-                                  "experience",
-                                  $event.target.value
-                                )
+                                _vm.$set(_vm.form, "bio", $event.target.value)
                               }
                             }
                           })
@@ -62459,7 +62470,48 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _vm._m(3),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-sm-12 control-label",
+                            attrs: { for: "Password" }
+                          },
+                          [_vm._v("Password(leave empty if not changing)")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-10" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.password,
+                                expression: "form.password"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "password",
+                              id: "inputSkills",
+                              placeholder: "password"
+                            },
+                            domProps: { value: _vm.form.password },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.form,
+                                  "password",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
                         _c("div", { staticClass: "col-offset-2 col-sm-12" }, [
@@ -62782,29 +62834,6 @@ var staticRenderFns = [
         _c("input", {
           staticClass: "form-control form-control-sm",
           attrs: { type: "text", placeholder: "Type a comment" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
-        { staticClass: "col-sm-12 control-label", attrs: { for: "Password" } },
-        [_vm._v("Password(leave empty if not changing)")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-10" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "password",
-            id: "inputSkills",
-            placeholder: "password"
-          }
         })
       ])
     ])

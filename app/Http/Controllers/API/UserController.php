@@ -94,12 +94,25 @@ class UserController extends Controller
         // add timestamp to base64 link to make  unique //naming
         // explode takes string convert into array,each word idmade into array
         // substr returns position of second param as number
+        $this->validate($request,[
+            'name'=>'required|string|max:191',
+            'email'=>'required|string|email|max:191|unique:users,email,'.$user->id,
+            'password'=>'sometimes|required|min:6',
 
-        if($request->photo){
+        ]);
+        $currentPhoto = $user->photo;
+        if($request->photo != $currentPhoto){
             // $image = time().'.' .explode('/', explode(':', substr($request->photo,0,strpos($request->photo, ':')))[1])[1];
-            $image = explode('/', mime_content_type($request->photo))[1];
+            $image = time().'.'. explode('/', explode(':',substr($request->photo,0,strpos($request->photo,';')))[1])[1];
             Image::make($request->photo)->save(public_path('image/profile/').$image);
+
+            
+            // assign new valuephoto field
+            $request->merge(['photo'=>$image]);
         }
+
+        $user->update($request->all());
+        return['message'=>"success"];
     }
     public function destroy($id)
     {

@@ -194,9 +194,9 @@
                         </div>
                       </div>
                       <div class="form-group ">
-                        <label for="Experience" class="col-sm-12 control-label">Experience</label>
+                        <label for="io" class="col-sm-12 control-label">bio</label>
                         <div class="col-sm-10">
-                          <textarea class="form-control" v-model="form.experience"  id="inputExperience" placeholder="Experience"></textarea>
+                          <textarea class="form-control" v-model="form.bio"  id="inputExperience" placeholder="Experience"></textarea>
                         </div>
                       </div>
 
@@ -210,7 +210,7 @@
                       <div class="form-group">
                         <label for="Password" class="col-sm-12 control-label">Password(leave empty if not changing)</label>
                         <div class="col-sm-10">
-                          <input type="password" class="form-control" id="inputSkills" placeholder="password">
+                          <input type="password" v-model="form.password" class="form-control" id="inputSkills" placeholder="password">
                         </div>
                       </div>
                       <div class="form-group">
@@ -254,22 +254,33 @@
         },
         methods:{
           updateInfo(){
+            this.$Progress.start();
             this.form.put('api/profile')
                 .then(()=>{
-
+                  this.$Progress.finish();
                 })
                 .catch(()=>{
-
+                  this.$Progress.fail();
                 })
           },
           updatePhoto(e){
             //convert photo to base64
             let file = e.target.files[0];
             let reader = new FileReader();
-            reader.onload = ()=>{
+            // can only upload file less than 2mb
+            if(file.size < 2111775){
+              reader.onload = ()=>{
                   this.form.photo= reader.result;
                 }
             reader.readAsDataURL(file);
+            }else{
+                Swal.fire({
+                  type:'error',
+                  title:'Oooops..',
+                  text:'File cannot be more than 2Mb'
+                })
+            }
+            
           }
         },
 
