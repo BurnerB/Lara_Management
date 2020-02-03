@@ -3026,8 +3026,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getProfilePic: function getProfilePic() {
-      var prefix = this.form.photo.match(/\//) ? '' : '/img/profile/';
-      return prefix + this.form.photo;
+      //  if this.form.photo value matches any regular expression which a based64 data has, 
+      // then assign an empty string ' ' to prefix variable 
+      // otherwise assign the '/img/profile/' instead
+      var photo = this.form.photo.length > 100 ? this.form.photo : '/image/profile/' + this.form.photo;
+      return photo;
     },
     updateInfo: function updateInfo() {
       var _this = this;
@@ -3064,16 +3067,25 @@ __webpack_require__.r(__webpack_exports__);
           text: 'File cannot be more than 2Mb'
         });
       }
+    },
+    getData: function getData() {
+      var _this3 = this;
+
+      axios.get('api/profile').then(function (_ref) {
+        var data = _ref.data;
+        return _this3.form.fill(data);
+      });
+      Fire.$emit('GetData');
+      this.$Progress.finish();
     }
   },
   //once component created run this function
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
-    axios.get('api/profile').then(function (_ref) {
-      var data = _ref.data;
-
-      _this3.form.fill(data);
+    this.getData();
+    Fire.$on('GetData', function () {
+      _this4.getData();
     });
   }
 });

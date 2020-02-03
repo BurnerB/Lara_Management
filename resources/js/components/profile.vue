@@ -261,8 +261,11 @@
         },
         methods:{
           getProfilePic(){
-            let prefix = (this.form.photo.match(/\//) ? '' : '/img/profile/');
-            return prefix + this.form.photo;
+            //  if this.form.photo value matches any regular expression which a based64 data has, 
+            // then assign an empty string ' ' to prefix variable 
+            // otherwise assign the '/img/profile/' instead
+            let photo = (this.form.photo.length>100) ? this.form.photo : '/image/profile/'+this.form.photo;
+            return photo;
           },
           updateInfo(){
             this.$Progress.start();
@@ -296,15 +299,21 @@
                 })
             }
             
-          }
+          },
+          getData(){
+            axios.get('api/profile')
+                .then(({ data })=>(this.form.fill(data)));  
+                Fire.$emit('GetData');
+                this.$Progress.finish();
+                }
         },
 
         //once component created run this function
         created(){
-            axios .get('api/profile')
-                  .then(({ data })=>{
-                    this.form.fill(data)
-                  });
+              this.getData();
+              Fire.$on('GetData',()=>{
+                  this.getData()
+              })
         }
     }
 </script>
