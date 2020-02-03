@@ -202,7 +202,7 @@
                       <div class="form-group ">
                         <label for="Photo" class="col-sm-12 control-label">Profile Photo</label>
                         <div class="col-sm-10">
-                            <input type="file" name="fileToUpload" id="fileToUpload">
+                            <input type="file" @change="updatePhoto" name="fileToUpload" id="fileToUpload">
                         </div>
                       </div>
 
@@ -214,7 +214,8 @@
                       </div>
                       <div class="form-group">
                         <div class="col-offset-2 col-sm-12">
-                          <button type="submit" class="btn btn-success">Update</button>
+                          <!-- prevent  wont refresh the page -->
+                          <button @click.prevent='updateInfo' type="submit" class="btn btn-success">Update</button>
                         </div>
                       </div>
                     </form>
@@ -250,6 +251,27 @@
         mounted() {
             console.log('Component mounted.')
         },
+        methods:{
+          updateInfo(){
+            this.form.put('/api/profile/')
+                .then(()=>{
+
+                })
+                .catch(()=>{
+                  
+                })
+          },
+          updatePhoto(e){
+            //convert photo to base64
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onload = ()=>{
+                  this.form.photo= reader.result;
+                }
+            reader.readAsDataURL(file);
+          }
+        },
+
         //once component created run this function
         created(){
             axios .get('api/profile')

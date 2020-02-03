@@ -79,6 +79,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function profile()
+    {   
+        //api -authenticated user
+        return auth('api')->user();
+    }
+
+    public function updateProfile()
+    {   
+        $user =auth('api')->user();
+        return ['message','success'];
+    }
     public function destroy($id)
     {
         $user = User::findorFail($id);
@@ -89,9 +101,5 @@ class UserController extends Controller
         return[ 'message'=>'User Deleted'];
     }
 
-    public function profile()
-    {   
-        //api -authenticated user
-        return auth('api')->user();
-    }
+    
 }
