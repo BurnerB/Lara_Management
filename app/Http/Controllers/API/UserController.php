@@ -88,4 +88,10 @@ class UserController extends Controller
 
         return[ 'message'=>'User Deleted'];
     }
+
+    public function profile()
+    {   
+        //api -authenticated user
+        return auth('api')->user();
+    }
 }
