@@ -60,6 +60,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    //Admin update user
     public function update(Request $request, $id)
     {
        $user=User::findorFail($id);
@@ -87,6 +89,7 @@ class UserController extends Controller
         return auth('api')->user();
     }
 
+    //Use update profile
     public function updateProfile(Request $request)
     {   
         $user =auth('api')->user();
@@ -101,6 +104,7 @@ class UserController extends Controller
 
         ]);
         $currentPhoto = $user->photo;
+
         if($request->photo != $currentPhoto){
             // $image = time().'.' .explode('/', explode(':', substr($request->photo,0,strpos($request->photo, ':')))[1])[1];
             $image = time().'.'. explode('/', explode(':',substr($request->photo,0,strpos($request->photo,';')))[1])[1];
@@ -109,6 +113,17 @@ class UserController extends Controller
             
             // assign new valuephoto field
             $request->merge(['photo'=>$image]);
+
+            $userPhoto = public_path('image/profile/').$currentPhoto;
+            // delete old photo if updated
+            if(file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
+        }
+
+        // encrypt password if changed
+        if(!empty($request->password)){
+            $request->merge(['password'=>Hash::make($request['password'])]);
         }
 
         $user->update($request->all());

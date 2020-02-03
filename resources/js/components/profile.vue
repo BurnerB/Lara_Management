@@ -184,19 +184,24 @@
                       <div class="form-group ">
                         <label for="inputName" class="col-sm-12 control-label">Name</label>
                         <div class="col-sm-12">
-                          <input type="name" v-model="form.name"  class="form-control" id="inputName" placeholder="Name">
+                          <input type="name" v-model="form.name"  class="form-control" id="inputName" placeholder="Name" :class="{ 'is-invalid': form.errors.has('name') }">
+                          <has-error :form="form" field="name"></has-error>
                         </div>
                       </div>
+
                       <div class="form-group ">
                         <label for="inputEmail" class="col-sm-12 control-label">Email</label>
                         <div class="col-sm-10">
-                          <input  type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email">
+                          <input  type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email" :class="{ 'is-invalid': form.errors.has('email') }">
+                          <has-error :form="form" field="email"></has-error>
                         </div>
                       </div>
+
                       <div class="form-group ">
                         <label for="io" class="col-sm-12 control-label">bio</label>
                         <div class="col-sm-10">
-                          <textarea class="form-control" v-model="form.bio"  id="inputExperience" placeholder="Experience"></textarea>
+                          <textarea class="form-control" v-model="form.bio"  id="inputExperience" placeholder="bio" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+                          <has-error :form="form" field="bio"></has-error>
                         </div>
                       </div>
 
@@ -210,7 +215,8 @@
                       <div class="form-group">
                         <label for="Password" class="col-sm-12 control-label">Password(leave empty if not changing)</label>
                         <div class="col-sm-10">
-                          <input type="password" v-model="form.password" class="form-control" id="inputSkills" placeholder="password">
+                          <input type="password" v-model="form.password" class="form-control" id="inputSkills" placeholder="password" :class="{ 'is-invalid': form.errors.has('password') }">
+                          <has-error :form="form" field="password"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
@@ -257,6 +263,10 @@
             this.$Progress.start();
             this.form.put('api/profile')
                 .then(()=>{
+                  Toast.fire({
+                            icon: 'success',
+                            title: 'Updated Successfully'
+                          })
                   this.$Progress.finish();
                 })
                 .catch(()=>{
