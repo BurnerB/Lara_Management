@@ -179,7 +179,8 @@
 
 
                   <div class="tab-pane active" id="settings">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" method="put">
+                     
                       <div class="form-group ">
                         <label for="inputName" class="col-sm-12 control-label">Name</label>
                         <div class="col-sm-12">
@@ -253,12 +254,12 @@
         },
         methods:{
           updateInfo(){
-            this.form.put('/api/profile/')
+            this.form.put('api/profile')
                 .then(()=>{
 
                 })
                 .catch(()=>{
-                  
+
                 })
           },
           updatePhoto(e){

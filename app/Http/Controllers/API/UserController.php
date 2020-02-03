@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image as Image;
 
 class UserController extends Controller
 {   
@@ -86,10 +87,19 @@ class UserController extends Controller
         return auth('api')->user();
     }
 
-    public function updateProfile()
+    public function updateProfile(Request $request)
     {   
         $user =auth('api')->user();
-        return ['message','success'];
+        // wouldve just used cloudinary or aws s3 but must learn base65 :C
+        // add timestamp to base64 link to make  unique //naming
+        // explode takes string convert into array,each word idmade into array
+        // substr returns position of second param as number
+
+        if($request->photo){
+            // $image = time().'.' .explode('/', explode(':', substr($request->photo,0,strpos($request->photo, ':')))[1])[1];
+            $image = explode('/', mime_content_type($request->photo))[1];
+            Image::make($request->photo)->save(public_path('image/profile/').$image);
+        }
     }
     public function destroy($id)
     {
