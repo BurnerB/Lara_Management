@@ -40,6 +40,7 @@ const Toast = Swal.mixin({
 });
 
 window.Toast = Toast;
+//Register a component globally
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 Vue.component(
@@ -55,6 +56,11 @@ Vue.component(
 Vue.component(
   'passport-personal-access-tokens',
   require('./components/passport/PersonalAccessTokens.vue')
+);
+
+Vue.component(
+  'not-found',
+  require('./components/notfound.vue')
 );
 
 

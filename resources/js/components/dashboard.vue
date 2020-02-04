@@ -1,23 +1,21 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
-
-                    <div class="card-body">
-                        I'm an dashboard component.
-                    </div>
-                </div>
-            </div>
+            <not-found></not-found>
         </div>
     </div>
 </template>
 
 <script>
+    import NotFound from './notfound'
+
+
     export default {
         mounted() {
             console.log('Component mounted.')
-        }
+        },
+    components:{
+        'not-found':NotFound
+    }
     }
 </script>

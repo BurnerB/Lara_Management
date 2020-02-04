@@ -57,7 +57,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="./image/profile/{{ Auth::user()->photo }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-       <a href="#">{{ Auth::user()->name }}</a> 
+        <a href="#">
+          {{ Auth::user()->name }}
+          <span class="d-block text-muted">
+            {{ Auth::user()->type }}
+          </span>
+        </a>
+        
         </div>
       </div>
 
