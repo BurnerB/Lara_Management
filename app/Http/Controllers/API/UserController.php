@@ -23,9 +23,9 @@ class UserController extends Controller
     public function index()
     {
         // $this->authorize('isAdmin');
-        // allow access to admin or authorusing AUTHORIZING ACTIONS
+        // allow access to admin or author using AUTHORIZING ACTIONS
         if(\Gate::allows('isAdmin') || \Gate::allows('isAuthor') ){
-            return User::latest()->paginate(20);
+            return User::latest()->paginate(5);
         }
         
     }

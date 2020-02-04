@@ -41,8 +41,9 @@ const Toast = Swal.mixin({
 
 window.Toast = Toast;
 //Register a component globally
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
+Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component(
   'passport-clients',
   require('./components/passport/Clients.vue')
