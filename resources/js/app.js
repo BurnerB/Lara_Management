@@ -13,6 +13,11 @@ import moment from 'moment';
 import VueProgressBar from 'vue-progressbar';
 import VueRouter from 'vue-router'
 import Swal from 'sweetalert2';
+import Gate from './Gate';
+
+
+//prototyping to have access to the class anywhere in app
+Vue.prototype.$gate = new Gate(window.user);
 
 
 // refrence globally

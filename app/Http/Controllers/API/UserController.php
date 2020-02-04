@@ -22,6 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('isAdmin');
         return User::latest()->paginate(10);
     }
 
@@ -33,6 +34,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('isAdmin');
         $this->validate($request,[
             'name'=>'required|string|max:191',
             'email'=>'required|string|email|max:191|unique:users',
@@ -64,6 +66,7 @@ class UserController extends Controller
     //Admin update user
     public function update(Request $request, $id)
     {
+        $this->authorize('isAdmin');
        $user=User::findorFail($id);
 
        $this->validate($request,[
@@ -131,6 +134,8 @@ class UserController extends Controller
     }
     public function destroy($id)
     {
+        //only admin can use this  endpoint using helper
+        $this->authorize('isAdmin');
         $user = User::findorFail($id);
 
         //delete user

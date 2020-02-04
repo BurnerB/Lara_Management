@@ -1,6 +1,7 @@
 <template>
     <div class="container">
-        <div class="row mt-5">
+      <!-- in v-if o need this.$gate -->
+        <div class="row mt-5" v-if="$gate.isAdmin()">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
@@ -219,8 +220,10 @@
         },
 
         loadUsers(){ 
-          axios.get('api/user')
+          if(this.$gate.isAdmin){
+            axios.get('api/user')
                 .then(({ data })=> (this.users = data.data));
+          }        
         },
         
         createUser(){
