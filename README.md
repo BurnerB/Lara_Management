@@ -8,7 +8,7 @@
 </p>
 
 
-# laravStart
+# lara-Mngr
 Starter Admin profile  app. 
  
 
