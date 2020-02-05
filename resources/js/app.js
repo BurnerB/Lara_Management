@@ -74,10 +74,9 @@ Vue.use(VueProgressBar, {
 })
 
 let routes = [
-    { path: '/dashboard', component: require('./components/dashboard.vue').default },
+    { path: '/', component: require('./components/dashboard.vue').default },
     { path: '/profile', component: require('./components/profile.vue').default },
     { path: '/users', component: require('./components/users.vue').default },
-    { path: '/developer', component: require('./components/developer.vue').default },
     // has to be last
     { path: '*', component: require('./components/notfound.vue').default }
 ];

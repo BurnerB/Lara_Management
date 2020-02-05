@@ -67,6 +67,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <!-- .orevent means  prevent default action mainly href="#" -->
                 <form  @submit.prevent="editmode ? updateUser() : createUser()">
                   <div class="modal-body">
                       <div class="form-group">
