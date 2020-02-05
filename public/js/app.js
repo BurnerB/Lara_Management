@@ -79868,9 +79868,12 @@ var app = new Vue({
     search: ""
   },
   methods: {
-    searchit: function searchit() {
+    //use loadash debunk function waits for sometime
+    // send request after 2 seconds 
+    // allow automatic search without pressing enter 1000(1 sec)
+    searchit: _.debounce(function () {
       Fire.$emit('searching');
-    }
+    }, 1000)
   }
 });
 

@@ -122,8 +122,11 @@ const app = new Vue({
       search:""
     },
     methods:{
-      searchit(){
+      //use loadash debunk function waits for sometime
+      // send request after 2 seconds 
+      // allow automatic search without pressing enter 1000(1 sec)
+      searchit:_.debounce(()=>{
         Fire.$emit('searching');
+      },1000)
       }
-    }
 });
