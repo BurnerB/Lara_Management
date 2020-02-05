@@ -1,4 +1,5 @@
-# lara-Mngr
+# Lara-Mngr
+:warning: :construction: __WORK IN PROGRESS__
 Admin functionality. 
  
 <b> Learning Vue Lara: </b>
