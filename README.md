@@ -1,8 +1,6 @@
 # lara-Mngr
-Starter Admin profile  app. 
+Admin functionality. 
  
-
-
 <b> Learning Vue Lara: </b>
 
 * How use Vue Router with Laravel
