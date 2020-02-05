@@ -136,6 +136,20 @@ class UserController extends Controller
         $user->update($request->all());
         return['message'=>"success"];
     }
+
+    // search bar for searching user
+    public function search(){
+        //get value of q store in search
+        //loop go to user call function pass query
+        // if name or email === search
+        if($search = \Request::get('q')){
+            $users = User::where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%")
+                      ->orWhere('email','LIKE',"%$search%");
+                })->paginate(20);
+            }
+            return $users;
+        }
     public function destroy($id)
     {
         //only admin can use this  endpoint using helper

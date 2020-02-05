@@ -15,8 +15,8 @@
             <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header text-white" style="background-image: url('./image/background.jpg');">
-                <h3 class="widget-user-username text-right">Elizabeth Pierce</h3>
-                <h5 class="widget-user-desc text-right">Web Designer</h5>
+                <h3 class="widget-user-username text-right">{{ this.form.name }}</h3>
+                <h5 class="widget-user-desc text-right">{{ this.form.type }}</h5>
               </div>
               <div class="widget-user-image">
                 <!-- : bind src atribute to a method for pic-->

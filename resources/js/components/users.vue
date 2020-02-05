@@ -267,6 +267,17 @@
       }
     },
     created() {
+            Fire.$on('searching',()=>{
+              //access data in parent(app.js)
+              let query = this.$parent.search;
+              axios .get('api/findUser?q=' +query)
+                    .then(( { data })=>{
+                        this.users.data=data.data;
+                    })
+                    .catch(()=>{
+
+                    })
+            })
             this.loadUsers();
             // custom event--better way use laravel echo pusher
             Fire.$on('reload',()=>{
