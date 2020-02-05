@@ -63,6 +63,14 @@
                                     </a>
                                 @endif
                             </div>
+
+                            <div style="color:red;">
+                                <br>
+                                <h5>* Please use any of the test credentials for login *</h5>
+                                <p>test email | test password</p>
+                                <p>baba@test.com  | 12345678</p><p>(ADMIN)</p>
+                                
+                            </div>
                         </div>
                     </form>
                 </div>
