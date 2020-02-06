@@ -11,10 +11,10 @@ use Intervention\Image\Facades\Image as Image;
 class UserController extends Controller
 {   
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
