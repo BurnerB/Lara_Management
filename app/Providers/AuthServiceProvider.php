@@ -28,6 +28,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
 
+        Passport::loadKeysFrom('/secret-keys/oauth');
+
         //Access control list using gates
         Gate::define('isAdmin',function($user){
             return $user->type === 'admin';
