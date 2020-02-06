@@ -20,4 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //if route does not exist
-Route::get('{path}', 'HomeController@index')->where( 'path', '([A-z\d-/_.]+)?' );
+Route::get('{path}', 'HomeController@index')->where( 'path', '([\w.-]+)?' );
